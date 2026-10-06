@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Edit Category</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #16a34a;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <a href="/view/categories" class="back">
+      ← Back to Categories
+    </a>
+
+    <h1>Edit Category</h1>
+
+    <form
+      action="/view/categories/edit/<%= category._id %>"
+      method="POST"
+    >
+
+      <label>
+        Category Name
+      </label>
+
+      <input
+        type="text"
+        name="name"
+        value="<%= category.name %>"
+        required
+      >
+
+      <label>
+        Category Type
+      </label>
+
+      <select name="type" required>
+
+        <option
+          value="Income"
+          <%= category.type === "Income" ? "selected" : "" %>
+        >
+          Income
+        </option>
+
+        <option
+          value="Expense"
+          <%= category.type === "Expense" ? "selected" : "" %>
+        >
+          Expense
+        </option>
+
+      </select>
+
+      <button type="submit">
+        Update Category
+      </button>
+
+    </form>
+
+  </div>
+
+</body>
+</html>

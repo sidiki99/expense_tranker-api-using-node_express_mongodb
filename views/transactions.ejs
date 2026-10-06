@@ -1,0 +1,556 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>My Transactions</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .create-btn {
+      background: #16a34a;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    input,
+    select,
+    button {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .filter-btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .clear-btn {
+      background: #ddd;
+      color: black;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    .income {
+      color: green;
+      font-weight: bold;
+    }
+
+    .expense {
+      color: red;
+      font-weight: bold;
+    }
+
+    .actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .view {
+      background: #2563eb;
+      color: white;
+      padding: 7px 10px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .edit {
+      background: #f59e0b;
+      color: white;
+      padding: 7px 10px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .delete {
+      background: #dc2626;
+      color: white;
+      padding: 7px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .pagination {
+      margin-top: 25px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .pagination a {
+      background: #2563eb;
+      color: white;
+      padding: 8px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 900px) {
+
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        overflow-x: auto;
+      }
+
+      table {
+        min-width: 1000px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+  <div class="top">
+
+    <h1>My Transactions</h1>
+
+    <a
+      class="create-btn"
+      href="/view/transactions/create"
+    >
+      + Create Transaction
+    </a>
+
+  </div>
+
+
+ <!-- //filter -->
+
+  <form
+    method="GET"
+    action="/view/transactions"
+  >
+
+    <div class="filters">
+
+
+      <!-- SEARCH -->
+
+      <input
+        type="text"
+        name="search"
+        placeholder="Search title..."
+        value="<%= search %>"
+      >
+
+
+      <!-- TYPE -->
+
+      <select name="type">
+
+        <option value="">
+          All Types
+        </option>
+
+        <option
+          value="Income"
+          <%= type === "Income"
+            ? "selected"
+            : "" %>
+        >
+          Income
+        </option>
+
+        <option
+          value="Expense"
+          <%= type === "Expense"
+            ? "selected"
+            : "" %>
+        >
+          Expense
+        </option>
+
+      </select>
+
+
+      <!-- CATEGORY -->
+
+      <select name="category">
+
+        <option value="">
+          All Categories
+        </option>
+
+
+        <% categories.forEach(
+          cat => {
+        %>
+
+          <option
+            value="<%= cat._id %>"
+            <%= category === String(cat._id)
+              ? "selected"
+              : "" %>
+          >
+
+            <%= cat.name %>
+
+          </option>
+
+        <% }) %>
+
+      </select>
+
+
+      <!-- START DATE -->
+
+      <input
+        type="date"
+        name="startDate"
+        value="<%= startDate %>"
+      >
+
+
+      <!-- END DATE -->
+
+      <input
+        type="date"
+        name="endDate"
+        value="<%= endDate %>"
+      >
+
+
+      <button
+        class="filter-btn"
+        type="submit"
+      >
+        Filter
+      </button>
+
+
+      <a
+        class="clear-btn"
+        href="/view/transactions"
+      >
+        Clear
+      </a>
+
+
+    </div>
+
+  </form>
+
+
+  <p>
+
+    Total Transactions:
+
+    <strong>
+      <%= totalTransactions %>
+    </strong>
+
+  </p>
+
+
+  <!-- ================================= -->
+  <!-- TABLE -->
+  <!-- ================================= -->
+
+  <table>
+
+
+    <thead>
+
+      <tr>
+
+        <th>Title</th>
+
+        <th>Amount</th>
+
+        <th>Type</th>
+
+        <th>Category</th>
+
+        <th>Description</th>
+
+        <th>Date</th>
+
+        <th>Actions</th>
+
+      </tr>
+
+    </thead>
+
+
+    <tbody>
+
+
+      <% if (
+        transactions.length === 0
+      ) { %>
+
+
+        <tr>
+
+          <td colspan="7">
+
+            No transactions found.
+
+          </td>
+
+        </tr>
+
+
+      <% } %>
+
+
+      <% transactions.forEach(
+        transaction => {
+      %>
+
+
+        <tr>
+
+
+          <td>
+            <%= transaction.title %>
+          </td>
+
+
+          <td>
+            $<%= transaction.amount %>
+          </td>
+
+
+          <td>
+
+            <% if (
+              transaction.type === "Income"
+            ) { %>
+
+              <span class="income">
+                Income
+              </span>
+
+            <% } else { %>
+
+              <span class="expense">
+                Expense
+              </span>
+
+            <% } %>
+
+          </td>
+
+
+          <td>
+
+            <% if (
+              transaction.category
+            ) { %>
+
+              <%= transaction.category.name %>
+
+            <% } else { %>
+
+              No Category
+
+            <% } %>
+
+          </td>
+
+
+          <td>
+
+            <%= transaction.description || "-" %>
+
+          </td>
+
+
+          <td>
+
+            <%= new Date(
+              transaction.date
+            ).toLocaleDateString() %>
+
+          </td>
+
+
+          <td>
+
+            <div class="actions">
+
+
+              <a
+                class="view"
+                href="/view/transactions/<%= transaction._id %>"
+              >
+                View
+              </a>
+
+
+              <a
+                class="edit"
+                href="/view/transactions/<%= transaction._id %>/edit"
+              >
+                Edit
+              </a>
+
+
+              <form
+                method="POST"
+                action="/view/transactions/<%= transaction._id %>/delete"
+                onsubmit="return confirm('Delete this transaction?')"
+              >
+
+                <button
+                  class="delete"
+                  type="submit"
+                >
+                  Delete
+                </button>
+
+              </form>
+
+
+            </div>
+
+          </td>
+
+
+        </tr>
+
+
+      <% }) %>
+
+
+    </tbody>
+
+  </table>
+
+<!-- pagination -->
+
+  <div class="pagination">
+
+
+    <% if (page > 1) { %>
+
+      <a
+        href="?page=<%= page - 1 %>&limit=<%= limit %>&type=<%= type %>&category=<%= category %>&search=<%= search %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
+      >
+        ← Previous
+      </a>
+
+    <% } %>
+
+
+    <span>
+
+      Page
+
+      <strong>
+        <%= page %>
+      </strong>
+
+      of
+
+      <strong>
+        <%= totalPages || 1 %>
+      </strong>
+
+    </span>
+
+
+    <% if (page < totalPages) { %>
+
+      <a
+        href="?page=<%= page + 1 %>&limit=<%= limit %>&type=<%= type %>&category=<%= category %>&search=<%= search %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
+      >
+        Next →
+      </a>
+
+    <% } %>
+
+
+  </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+

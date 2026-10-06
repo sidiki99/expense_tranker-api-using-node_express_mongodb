@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Transaction Details</title>
+
+
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    .row {
+      padding: 15px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    a {
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .back {
+      background: #2563eb;
+      color: white;
+    }
+
+    .edit {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .delete {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+  <h1>Transaction Details</h1>
+
+
+  <div class="row">
+
+    <strong>ID:</strong>
+
+    <%= transaction._id %>
+
+  </div>
+
+
+  <div class="row">
+
+    <strong>Title:</strong>
+
+    <%= transaction.title %>
+
+  </div>
+
+
+  <div class="row">
+
+    <strong>Amount:</strong>
+
+    $<%= transaction.amount %>
+
+  </div>
+
+
+  <div class="row">
+
+    <strong>Type:</strong>
+
+    <%= transaction.type %>
+
+  </div>
+
+
+  <div class="row">
+
+    <strong>Category:</strong>
+
+    <% if (transaction.category) { %>
+
+      <%= transaction.category.name %>
+
+    <% } else { %>
+
+      No Category
+
+    <% } %>
+
+  </div>
+
+
+  <div class="row">
+
+    <strong>Description:</strong>
+
+    <%= transaction.description || "-" %>
+
+  </div>
+
+
+  <div class="row">
+
+    <strong>Date:</strong>
+
+    <%= new Date(
+      transaction.date
+    ).toLocaleDateString() %>
+
+  </div>
+
+
+  <div class="buttons">
+
+
+    <a
+      class="back"
+      href="/view/transactions"
+    >
+      ← Back
+    </a>
+
+
+    <a
+      class="edit"
+      href="/view/transactions/<%= transaction._id %>/edit"
+    >
+      Edit
+    </a>
+
+
+    <form
+      method="POST"
+      action="/view/transactions/<%= transaction._id %>/delete"
+      onsubmit="return confirm('Delete this transaction?')"
+    >
+
+      <button
+        class="delete"
+        type="submit"
+      >
+        Delete
+      </button>
+
+    </form>
+
+
+  </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+

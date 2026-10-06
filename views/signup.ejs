@@ -1,32 +1,177 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   <style>
-    body{
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+
+  <title>Sign Up</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #F4F6F9;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .signup-container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    form {
+      width: 100%;
+      background-color: #ffffff;
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1f2937;
+      font-size: 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 15px;
+      outline: none;
+      background-color: #ffffff;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 18px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      form {
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>SignUp</h1>
+  <div class="signup-container">
 
-<form method="POST" action="/user">
-  <label for="url">Enter Name</label>
-  <input type="text" id="url" name="name" placeholder="Enter your Name">
+    <form method="POST" action="/user">
 
-  <label for="url">Enter Email</label>
-  <input type="text" id="url" name="email" placeholder="Enter your Email">
+      <h1>Sign Up</h1>
 
-  <label for="url">Enter Password</label>
-  <input type="text" id="url" name="password" placeholder="Enter your Password">
+      <label for="name">
+        Enter Name
+      </label>
 
-  <button type="submit">Signup</button>
-</form>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Enter your Name"
+        required
+      >
 
-  
+      <label for="email">
+        Enter Email
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter your Email"
+        required
+      >
+
+      <label for="password">
+        Enter Password
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Enter your Password"
+        required
+      >
+
+      <button type="submit">
+        Signup
+      </button>
+
+      <div class="login-link">
+        Already have an account?
+        <a href="/login">Login</a>
+      </div>
+
+    </form>
+
+  </div>
+
 </body>
+
 </html>
+
